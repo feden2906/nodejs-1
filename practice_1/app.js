@@ -23,21 +23,29 @@ const users = [
 function createFiles(array) {
     array.forEach(user => {
         if (user.gender === 'female' && user.age < 20) {
+            fs.mkdir(path.join(__dirname, 'womanYounger20'), {recursive: true},
+                error => console.log(error));
             fs.writeFile(path.join(__dirname, 'womanYounger20', `${user.name}.txt`), JSON.stringify(user),
                 err => console.log(err))
             return;
         }
         if (user.gender === 'female' && user.age >= 20) {
+            fs.mkdir(path.join(__dirname, 'womanOlder20'), {recursive: true},
+                error => console.log(error));
             fs.writeFile(path.join(__dirname, 'womanOlder20', `${user.name}.txt`), JSON.stringify(user),
                 err => console.log(err));
             return;
         }
         if (user.gender === 'male' && user.age < 20) {
+            fs.mkdir(path.join(__dirname, 'manYounger20'), {recursive: true},
+                error => console.log(error));
             fs.writeFile(path.join(__dirname, 'manYounger20', `${user.name}.txt`), JSON.stringify(user),
                 err => console.log(err));
             return;
         }
         if (user.gender === 'male' && user.age >= 20) {
+            fs.mkdir(path.join(__dirname, 'manOlder20'), {recursive: true},
+                error => console.log(error));
             fs.writeFile(path.join(__dirname, 'manOlder20', `${user.name}.txt`), JSON.stringify(user),
                 err => console.log(err));
             return;
