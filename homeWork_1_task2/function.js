@@ -16,7 +16,7 @@ function flatFiles (pathName) {
         files.forEach(file => {
             fs.stat(path.join(pathName, file), (error, stats) => {
                 if (error) console.log(error);
-                if (!stats.isDirectory() && file !== 'function.js') {
+                if (stats.isFile() && file !== 'function.js') {
                     fs.rename(path.join(pathName,file), path.join('finishDirectory',file ),
                         err1 => console.log(err1))
                 } else {
