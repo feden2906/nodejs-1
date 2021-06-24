@@ -46,22 +46,24 @@ async function getContent() {
 }
 
 //------------login form-------------
-app.get('/', (req, res) => {
+app.get('/login', (req, res) => {
     res.render('login');
 });
 
-app.post('/', async (req, res) => {
+app.post('/login', async (req, res) => {
     const {login, password} = req.body;
     const users = await getContent();
+
     const findUser = users.find(user => user.login === login && user.password === password);
+
     if (findUser) {
         const id = users.indexOf(findUser);
         res.redirect(`users/${id}`);
-        return
+        return;
     }
+
     res.send('Need to register or check your login and password');
 });
-
 
 //--------register form-------------------
 app.get('/register', (req, res) => {
@@ -71,16 +73,20 @@ app.get('/register', (req, res) => {
 app.post('/register', async (req, res) => {
     const {name, age, login, password} = req.body;
     const users = await getContent();
+
     const findUser = users.find(user => user.login === login);
+
     if (findUser) {
         res.render('error');
         return
     }
+
     users.push({name, age, login, password, id: users.length + 1});
     await fs.writeFile(path.join(__dirname, 'usersDataBase.json'), JSON.stringify(users),
         (err1) => {
             if (err1) console.log(err1);
         });
+
     res.redirect('/users')
 });
 
