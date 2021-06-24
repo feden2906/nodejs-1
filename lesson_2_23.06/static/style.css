@@ -1,0 +1,23 @@
+h3 {
+  margin-left: 150px;
+}
+
+form {
+    background-color: rgba(30, 144, 255, 0.52);
+    height: 250px;
+    width: 350px;
+    text-align: center;
+    padding: 30px;
+}
+
+.userBox {
+    border: dashed 1px grey;
+    padding: 10px;
+    width: 100px;
+}
+
+.link {
+    background-color: rgba(30, 144, 255, 0.29);
+    padding: 10px;
+    width: 150px;
+}

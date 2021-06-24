@@ -48,7 +48,6 @@ function createFiles(array) {
                 error => console.log(error));
             fs.writeFile(path.join(__dirname, 'manOlder20', `${user.name}.txt`), JSON.stringify(user),
                 err => console.log(err));
-            return;
         }
     })
 }
