@@ -19,7 +19,7 @@
 
 const express = require('express');
 const expressHandleB = require('express-handlebars');
-const fs = require('fs/promises');
+const fs = require('fs');
 const path = require('path');
 
 const app = express();
@@ -43,9 +43,9 @@ app.get('/', (req, res) => {
     res.render('login');
 });
 
-app.post('/', async (req, res) => {
+app.post('/', (req, res) => {
     const {login, password} = req.body;
-    await fs.readFile(path.join(__dirname, 'usersDataBase.json'), (err, data) => {
+    fs.readFileSync(path.join(__dirname, 'usersDataBase.json'), (err, data) => {
         if (err) console.log(err);
         const users = JSON.parse(data.toString());
         const findUser = users.find(user => user.login === login && user.password === password);
@@ -63,9 +63,9 @@ app.get('/register', (req, res) => {
     res.render('register');
 });
 
-app.post('/register', async (req, res) => {
+app.post('/register', (req, res) => {
     const {name, age, login, password} = req.body;
-    await fs.readFile(path.join(__dirname, 'usersDataBase.json'), (err, data) => {
+    fs.readFile(path.join(__dirname, 'usersDataBase.json'), (err, data) => {
         if (err) console.log(err);
         const users = JSON.parse(data.toString());
         const findUser = users.find(user => user.login === login);
@@ -83,8 +83,8 @@ app.post('/register', async (req, res) => {
 });
 
 //-------users ------------
-app.get('/users', async (req, res) => {
-    await fs.readFile(path.join(__dirname, 'usersDataBase.json'), (err, data) => {
+app.get('/users', (req, res) => {
+    fs.readFile(path.join(__dirname, 'usersDataBase.json'), (err, data) => {
         if (err) console.log(err);
         const users = JSON.parse(data.toString());
         res.render('users', {users});
@@ -92,11 +92,12 @@ app.get('/users', async (req, res) => {
 });
 
 //-------user --------
-app.get('/users/:id', async (req, res) => {
+app.get('/users/:id', (req, res) => {
     const {params: {id}} = req;
-    await fs.readFile(path.join(__dirname, 'usersDataBase.json'), (err, data) => {
+    fs.readFile(path.join(__dirname, 'usersDataBase.json'), (err, data) => {
         if (err) console.log(err);
         const users = JSON.parse(data.toString());
         res.render('user', {user: users[id]})
     })
 })
+
