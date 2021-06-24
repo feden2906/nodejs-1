@@ -20,6 +20,7 @@
 const express = require('express');
 const expressHandleB = require('express-handlebars');
 const fs = require('fs');
+const fsPromises = require('fs').promises;
 const path = require('path');
 
 const app = express();
@@ -38,66 +39,65 @@ app.engine('.hbs', expressHandleB({defaultLayout: false}));
 app.set('views', path.join(__dirname, 'static'));
 
 
+async function getContent() {
+    const data = await fsPromises.readFile(path.join(__dirname, 'usersDataBase.json'))
+        .catch((err) => console.error(err));
+    return JSON.parse(data.toString());
+}
+
 //------------login form-------------
 app.get('/', (req, res) => {
     res.render('login');
 });
 
-app.post('/', (req, res) => {
+app.post('/', async (req, res) => {
     const {login, password} = req.body;
-    fs.readFile(path.join(__dirname, 'usersDataBase.json'), (err, data) => {
-        if (err) console.log(err);
-        const users = JSON.parse(data.toString());
-        const findUser = users.find(user => user.login === login && user.password === password);
-        if (findUser) {
-            const id = users.indexOf(findUser);
-            res.redirect(`users/${id}`);
-            return
-        }
-        res.send('Need to register or check your login and password');
-    });
+    const users = await getContent();
+    const findUser = users.find(user => user.login === login && user.password === password);
+    if (findUser) {
+        const id = users.indexOf(findUser);
+        res.redirect(`users/${id}`);
+        return
+    }
+    res.send('Need to register or check your login and password');
 });
+
 
 //--------register form-------------------
 app.get('/register', (req, res) => {
     res.render('register');
 });
 
-app.post('/register', (req, res) => {
+app.post('/register', async (req, res) => {
     const {name, age, login, password} = req.body;
-    fs.readFile(path.join(__dirname, 'usersDataBase.json'), (err, data) => {
-        if (err) console.log(err);
-        const users = JSON.parse(data.toString());
-        const findUser = users.find(user => user.login === login);
-        if (findUser) {
-            res.render('error');
-            return
-        }
-        users.push({name, age, login, password, id: users.length + 1});
-        fs.writeFile(path.join(__dirname, 'usersDataBase.json'), JSON.stringify(users),
-            (err1) => {
-                if (err1) console.log(err1);
-            });
-        res.redirect('/users')
-    })
+    const users = await getContent();
+    const findUser = users.find(user => user.login === login);
+    if (findUser) {
+        res.render('error');
+        return
+    }
+    users.push({name, age, login, password, id: users.length + 1});
+    await fs.writeFile(path.join(__dirname, 'usersDataBase.json'), JSON.stringify(users),
+        (err1) => {
+            if (err1) console.log(err1);
+        });
+    res.redirect('/users')
 });
 
 //-------users ------------
-app.get('/users', (req, res) => {
-    fs.readFile(path.join(__dirname, 'usersDataBase.json'), (err, data) => {
-        if (err) console.log(err);
-        const users = JSON.parse(data.toString());
-        res.render('users', {users});
-    })
+app.get('/users', async (req, res) => {
+    const users = await getContent();
+    res.render('users', {users});
 });
 
 //-------user --------
-app.get('/users/:id', (req, res) => {
+app.get('/users/:id', async (req, res) => {
     const {params: {id}} = req;
-    fs.readFile(path.join(__dirname, 'usersDataBase.json'), (err, data) => {
-        if (err) console.log(err);
-        const users = JSON.parse(data.toString());
-        res.render('user', {user: users[id]})
-    })
+    const users = await getContent();
+    res.render('user', {user: users[id]})
 })
+
+
+
+
 
