@@ -45,7 +45,7 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
     const {login, password} = req.body;
-    fs.readFileSync(path.join(__dirname, 'usersDataBase.json'), (err, data) => {
+    fs.readFile(path.join(__dirname, 'usersDataBase.json'), (err, data) => {
         if (err) console.log(err);
         const users = JSON.parse(data.toString());
         const findUser = users.find(user => user.login === login && user.password === password);
