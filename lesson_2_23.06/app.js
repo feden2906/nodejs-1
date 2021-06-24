@@ -26,7 +26,7 @@ const path = require('path');
 const app = express();
 
 app.listen(3000, () => {
-    console.log('App listen localhost:3000')
+    console.log('App listen localhost:3000');
 });
 
 app.use(express.json());
@@ -78,7 +78,7 @@ app.post('/register', async (req, res) => {
 
     if (findUser) {
         res.render('error');
-        return
+        return;
     }
 
     users.push({name, age, login, password, id: users.length + 1});
@@ -100,7 +100,7 @@ app.get('/users', async (req, res) => {
 app.get('/users/:id', async (req, res) => {
     const {params: {id}} = req;
     const users = await getContent();
-    res.render('user', {user: users[id]})
+    res.render('user', {user: users[id]});
 })
 
 
