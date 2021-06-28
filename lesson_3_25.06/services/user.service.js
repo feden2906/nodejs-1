@@ -18,20 +18,13 @@ module.exports = {
 
     getOneUser: async (userId) => {
         const users = await getContent();
+
         const findUser = users.find((user) => user.id === +userId);
-        if (!findUser) {
-            throw new Error('user not found');
-        }
         return findUser;
     },
 
     createUser: async (newUser) => {
         const users = await getContent();
-        const existUser = users.some((user) => user.login === newUser.login);
-
-        if (existUser) {
-            throw new Error('this user is already login');
-        }
 
         users.push({ ...newUser, id: users.length + 1 });
 
@@ -49,9 +42,8 @@ module.exports = {
     updateUser: async (userId, newUserInfo) => {
         const users = await getContent();
 
-        const newUsersArray = users.filter((user) => user.id !== +userId);
-        newUsersArray.push({ ...newUserInfo, id: +userId });
+        users[userId] = { ...users[userId], ...newUserInfo };
 
-        await writeFilePromise(usersDBPath, JSON.stringify(newUsersArray));
+        await writeFilePromise(usersDBPath, JSON.stringify(users));
     }
 };

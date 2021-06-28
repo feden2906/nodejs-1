@@ -1,4 +1,5 @@
 const { userService } = require('../services');
+const { errors } = require('../constants');
 
 module.exports = {
     checkIsUserExist: async (req, res, next) => {
@@ -6,7 +7,7 @@ module.exports = {
         const userById = await userService.getOneUser(userId);
 
         if (!userById) {
-            throw new Error('user not found');
+            throw new Error(errors.USER_NOT_FOUND);
         }
 
         req.user = userById;
@@ -18,7 +19,7 @@ module.exports = {
         const findUser = users.find((user) => user.login === req.body.login);
 
         if (findUser) {
-            throw new Error('this user is already login');
+            throw new Error(errors.ALREADY_LOGIN);
         }
 
         next();
