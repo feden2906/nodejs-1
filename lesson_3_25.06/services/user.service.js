@@ -28,23 +28,30 @@ module.exports = {
     createUser: async (newUser) => {
         const users = await getContent();
         const existUser = users.some((user) => user.login === newUser.login);
+
         if (existUser) {
             throw new Error('this user is already login');
         }
+
         users.push({ ...newUser, id: users.length + 1 });
+
         await writeFilePromise(usersDBPath, JSON.stringify(users));
     },
 
     deleteUser: async (userId) => {
         const users = await getContent();
+
         const newUsersArray = users.filter((user) => user.id !== +userId);
+
         await writeFilePromise(usersDBPath, JSON.stringify(newUsersArray));
     },
 
     updateUser: async (userId, newUserInfo) => {
         const users = await getContent();
+
         const newUsersArray = users.filter((user) => user.id !== +userId);
         newUsersArray.push({ ...newUserInfo, id: +userId });
+
         await writeFilePromise(usersDBPath, JSON.stringify(newUsersArray));
     }
 };
