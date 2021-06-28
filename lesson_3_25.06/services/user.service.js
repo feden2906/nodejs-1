@@ -29,7 +29,7 @@ module.exports = {
         if (existUser) {
             throw new Error('this user is already login');
         }
-        users.push({ newUser, id: users.length + 1 });
+        users.push({ ...newUser, id: users.length + 1 });
         await writeFilePromise(usersDBPath, JSON.stringify(users));
     },
     deleteUser: async (userId) => {
@@ -40,7 +40,7 @@ module.exports = {
     updateUser: async (userId, newUserInfo) => {
         const users = await getContent();
         const newUsersArray = users.filter((user) => user.id !== +userId);
-        newUsersArray.push(newUserInfo);
+        newUsersArray.push({ ...newUserInfo, id: +userId });
         await writeFilePromise(usersDBPath, JSON.stringify(newUsersArray));
     }
 };
