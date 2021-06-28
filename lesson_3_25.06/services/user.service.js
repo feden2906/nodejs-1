@@ -15,6 +15,7 @@ async function getContent() {
 
 module.exports = {
     getAllUsers: getContent,
+
     getOneUser: async (userId) => {
         const users = await getContent();
         const findUser = users.find((user) => user.id === +userId);
@@ -23,6 +24,7 @@ module.exports = {
         }
         return findUser;
     },
+
     createUser: async (newUser) => {
         const users = await getContent();
         const existUser = users.some((user) => user.login === newUser.login);
@@ -32,11 +34,13 @@ module.exports = {
         users.push({ ...newUser, id: users.length + 1 });
         await writeFilePromise(usersDBPath, JSON.stringify(users));
     },
+
     deleteUser: async (userId) => {
         const users = await getContent();
         const newUsersArray = users.filter((user) => user.id !== +userId);
         await writeFilePromise(usersDBPath, JSON.stringify(newUsersArray));
     },
+
     updateUser: async (userId, newUserInfo) => {
         const users = await getContent();
         const newUsersArray = users.filter((user) => user.id !== +userId);
