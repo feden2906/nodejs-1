@@ -19,8 +19,7 @@ module.exports = {
     getOneUser: async (userId) => {
         const users = await getContent();
 
-        const findUser = users.find((user) => user.id === +userId);
-        return findUser;
+        return users.find((user) => user.id === +userId);
     },
 
     createUser: async (newUser) => {
