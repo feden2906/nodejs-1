@@ -8,14 +8,15 @@ const writeFilePromise = promisify(fs.writeFile);
 
 const usersDBPath = path.join(__dirname, constants.DATA_BASE_PATH);
 
+async function getContent() {
+    const data = await readFilePromise(usersDBPath);
+    return JSON.parse(data.toString());
+}
+
 module.exports = {
-    getAllUsers: async () => {
-        const data = await readFilePromise(usersDBPath);
-        return JSON.parse(data.toString());
-    },
+    getAllUsers: getContent,
     getOneUser: async (userId) => {
-        const data = await readFilePromise(usersDBPath);
-        const users = JSON.parse(data.toString());
+        const users = await getContent();
         const findUser = users.find((user) => user.id === +userId);
         if (!findUser) {
             throw new Error('user not found');
@@ -23,25 +24,23 @@ module.exports = {
         return findUser;
     },
     createUser: async (newUser) => {
-        const data = await readFilePromise(usersDBPath);
-        const users = JSON.parse(data.toString());
+        const users = await getContent();
         const existUser = users.some((user) => user.login === newUser.login);
         if (existUser) {
-            throw new Error('this user is exist');
+            throw new Error('this user is already login');
         }
         users.push({ newUser, id: users.length + 1 });
-        await writeFilePromise(usersDBPath, users);
+        await writeFilePromise(usersDBPath, JSON.stringify(users));
     },
     deleteUser: async (userId) => {
-        const data = await readFilePromise(usersDBPath);
-        const users = JSON.parse(data.toString());
+        const users = await getContent();
         const newUsersArray = users.filter((user) => user.id !== +userId);
         await writeFilePromise(usersDBPath, JSON.stringify(newUsersArray));
     },
     updateUser: async (userId, newUserInfo) => {
-        const data = await readFilePromise(usersDBPath);
-        const users = JSON.parse(data.toString());
-        users.splice(userId - 1, 1, newUserInfo);
-        await writeFilePromise(usersDBPath, JSON.stringify(users));
+        const users = await getContent();
+        const newUsersArray = users.filter((user) => user.id !== +userId);
+        newUsersArray.push(newUserInfo);
+        await writeFilePromise(usersDBPath, JSON.stringify(newUsersArray));
     }
 };
