@@ -37,7 +37,7 @@ function _notFoundHandler(err, req, res, next) {
 }
 
 function _mongooseConnector() {
-    mongoose.connect('mongodb://localhost:27017/users', {
+    mongoose.connect('mongodb://localhost:27017/feb-21', {
         useNewUrlParser: true,
         useUnifiedTopology: true
     });
