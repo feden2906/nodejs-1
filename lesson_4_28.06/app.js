@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const { userRouter } = require('./router');
-const { constants } = require('./constants');
+const { constants, statusCode } = require('./constants');
 
 const app = express();
 
@@ -31,8 +31,8 @@ function _handleErrors(err, req, res, next) {
 
 function _notFoundHandler(err, req, res, next) {
     next({
-        status: err.status || 404,
-        message: err.message || 'Rout not fond'
+        status: err.status || statusCode.NOT_FOUND,
+        message: err.message || constants.ROUTE_NOT_FOUND
     });
 }
 

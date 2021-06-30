@@ -22,11 +22,11 @@ module.exports = {
 
     checkIsUserRegister: async (req, res, next) => {
         try {
-            const users = await User.find({});
-            const findUser = users.find((user) => user.login === req.body.login);
+            const { login } = req.body;
+            const user = await User.find({ login });
 
-            if (findUser) {
-                throw new ErrorHandler(409, USER_ALREADY_LOGIN.message, USER_ALREADY_LOGIN.customCode);
+            if (user) {
+                throw new ErrorHandler(statusCode.CONFLICT, USER_ALREADY_LOGIN.message, USER_ALREADY_LOGIN.customCode);
             }
 
             next();
