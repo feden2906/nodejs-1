@@ -24,7 +24,7 @@ function _handleErrors(err, req, res, next) {
     res
         .status(err.status)
         .json({
-            massage: err.massage || 'Unknown error',
+            message: err.message || 'Unknown error',
             customCode: err.customCode || 0
         });
 }

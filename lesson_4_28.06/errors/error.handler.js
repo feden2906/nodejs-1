@@ -1,7 +1,7 @@
 class ErrorHandler extends Error {
     constructor(status, message, customCode) {
         super(message);
-        this.message = message;
+        this.massage = message;
         this.status = status;
         this.customCode = customCode;
 
