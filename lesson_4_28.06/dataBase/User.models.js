@@ -21,6 +21,6 @@ const userSchema = new Schema({
         type: Number,
         required: true
     }
-});
+}, { timestamps: true });
 
 module.exports = model(dataBaseTablesEnum.USERS, userSchema);
