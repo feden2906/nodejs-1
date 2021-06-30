@@ -24,7 +24,7 @@ function _handleErrors(err, req, res, next) {
     res
         .status(err.status)
         .json({
-            message: err.message || 'Unknown error',
+            message: err.message || constants.UNKNOWN_ERROR,
             customCode: err.customCode || 0
         });
 }
