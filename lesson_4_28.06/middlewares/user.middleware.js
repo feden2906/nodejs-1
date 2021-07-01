@@ -5,8 +5,8 @@ const { statusCode } = require('../constants');
 module.exports = {
     checkIsUserExist: async (req, res, next) => {
         try {
-            const { id } = req.params;
-            const userById = await User.findById(id);
+            const { userId } = req.params;
+            const userById = await User.findById(userId);
 
             if (!userById) {
                 throw new ErrorHandler(statusCode.NOT_FOUND, RECORD_NOT_FOUND.message, RECORD_NOT_FOUND.customCode);
