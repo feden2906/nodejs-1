@@ -41,7 +41,7 @@ module.exports = {
     updateUserById: async (req, res, next) => {
         try {
             const { userId } = req.params;
-            await User.findOneAndUpdate(userId, req.body);
+            await User.findOneAndUpdate(userId, req.body, { useFindAndModify: false });
 
             res.status(statusCode.UPDATED).json('user info was user successfully updated');
         } catch (err) {
