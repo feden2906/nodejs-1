@@ -1,6 +1,5 @@
 const { User } = require('../dataBase');
-const { ErrorHandler } = require('../errors');
-const { RECORD_NOT_FOUND, USER_ALREADY_LOGIN } = require('../errors');
+const { ErrorHandler, errors: { RECORD_NOT_FOUND, USER_ALREADY_LOGIN } } = require('../errors');
 const { statusCode } = require('../constants');
 
 module.exports = {
@@ -23,7 +22,7 @@ module.exports = {
     checkIsUserRegister: async (req, res, next) => {
         try {
             const { login } = req.body;
-            const user = await User.find({ login });
+            const user = await User.findOne({ login });
 
             if (user) {
                 throw new ErrorHandler(statusCode.CONFLICT, USER_ALREADY_LOGIN.message, USER_ALREADY_LOGIN.customCode);

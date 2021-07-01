@@ -1,2 +1,2 @@
 module.exports.ErrorHandler = require('./error.handler');
-module.exports = require('./error.massages');
+module.exports.errors = require('./error.massages');
