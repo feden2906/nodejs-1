@@ -9,5 +9,5 @@ module.exports = {
 
     updateUser: (id, updateInfo) => User.findByIdAndUpdate(id, updateInfo),
 
-    getOneUser: (query) => User.findOne({ query })
+    getOneUser: (query) => User.findOne(query)
 };

@@ -14,7 +14,7 @@ module.exports = {
     checkIsUserExist: async (req, res, next) => {
         try {
             const { userId } = req.params;
-            const userById = await userService.getOneUser(userId);
+            const userById = await userService.getOneUser({ _id: userId });
 
             if (!userById) {
                 throw new ErrorHandler(statusCode.NOT_FOUND, RECORD_NOT_FOUND.message, RECORD_NOT_FOUND.customCode);
