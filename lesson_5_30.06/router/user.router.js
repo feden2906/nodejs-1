@@ -7,15 +7,15 @@ router.get('/', userController.getUserContent);
 router.get('/:userId', userMiddleware.checkIsUserExist, userController.getUserById);
 
 router.post('/',
-    userMiddleware.checkIsUserRegister,
     userMiddleware.checkIsUserValid,
+    userMiddleware.checkIsUserRegister,
     userController.createNewUser);
 
 router.delete('/:userId', userMiddleware.checkIsUserExist, userController.deleteUserById);
 
 router.patch('/:userId',
-    userMiddleware.checkIsUserExist,
     userMiddleware.checkIsUserUpdateValid,
+    userMiddleware.checkIsUserExist,
     userController.updateUserById);
 
 module.exports = router;
