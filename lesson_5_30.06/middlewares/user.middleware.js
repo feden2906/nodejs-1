@@ -54,4 +54,17 @@ module.exports = {
             next(err);
         }
     },
+    checkIsUserUpdateValid: async (req, res, next) => {
+        try {
+            const { error } = await userValidator.updateUser.validate(req.body);
+
+            if (error) {
+                throw new ErrorHandler(statusCode.BAD_REQUEST, error.details[0].message, BAD_REQUEST_BODY.code);
+            }
+
+            next();
+        } catch (err) {
+            next(err);
+        }
+    },
 };

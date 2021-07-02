@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.listen(constants.PORT, () => {
-    console.log('app listen 3000');
+    console.log(`app listen ${constants.PORT}`);
 });
 
 app.use('/users', userRouter);
