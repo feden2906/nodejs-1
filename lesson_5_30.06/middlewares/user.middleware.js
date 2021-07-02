@@ -41,9 +41,9 @@ module.exports = {
             next(err);
         }
     },
-    checkIsUserValid: (req, res, next) => {
+    checkIsUserValid: async (req, res, next) => {
         try {
-            const { error } = userValidator.createUser.validate(req.body);
+            const { error } = await userValidator.createUser.validate(req.body);
 
             if (error) {
                 throw new ErrorHandler(statusCode.BAD_REQUEST, error.details[0].message, WRONG_EMAIL_OF_PASSWORD.code);
