@@ -5,7 +5,7 @@ const {
     errors: {
         RECORD_NOT_FOUND,
         USER_ALREADY_LOGIN,
-        WRONG_EMAIL_OF_PASSWORD
+        BAD_REQUEST_BODY
     }
 } = require('../errors');
 const { statusCode } = require('../constants');
@@ -46,7 +46,7 @@ module.exports = {
             const { error } = await userValidator.createUser.validate(req.body);
 
             if (error) {
-                throw new ErrorHandler(statusCode.BAD_REQUEST, error.details[0].message, WRONG_EMAIL_OF_PASSWORD.code);
+                throw new ErrorHandler(statusCode.BAD_REQUEST, error.details[0].message, BAD_REQUEST_BODY.code);
             }
 
             next();
