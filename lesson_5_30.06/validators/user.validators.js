@@ -13,7 +13,8 @@ module.exports = {
             .min(16)
             .max(100),
         login: Joi.string()
-            .regex(regexEnum.EMAIL_REGEXP),
+            .required()
+            .regex(regexEnum.EMAIL_REGEX),
         password: Joi.string()
             .required()
             .min(5)
